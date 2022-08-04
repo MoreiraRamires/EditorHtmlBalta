@@ -1,5 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
-
+// using System.IO;
 
 Menu();
 
@@ -25,7 +25,18 @@ static void Menu() {
 
 static void AbrirArquivo(){
     Console.Clear();
-    Console.WriteLine("Abrir Arquivo");
+    Console.WriteLine("Qual o caminho do arquivo?");
+    string path = Console.ReadLine();
+      using( var file = new StreamReader(path)){
+
+        string text = file.ReadToEnd();
+        Console.WriteLine(text);
+    }
+    
+    Console.WriteLine("");
+    Console.ReadLine();
+    Menu();
+
 }
 
 static void CriarArquivo() {
@@ -39,11 +50,23 @@ static void CriarArquivo() {
         text += Environment.NewLine;
     }
     while ( Console.ReadKey().Key != ConsoleKey.Escape);
-        Console.Write(text);
+        SalvarArquivo(text);
 
 
 }
 
+static void SalvarArquivo(string text) {
+    Console.Clear();
+    Console.WriteLine("Onde deseja salvar?");
+    var path = Console.ReadLine();
+    
+    using( var file = new StreamWriter(path)){
+        file.Write(text);
+    }
+        Console.WriteLine($"Arquivo Salvo com sucesso em {path}");
+        Menu();
+
+}
 
 static void SairSistema() {
     Console.Clear();
